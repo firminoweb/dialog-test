@@ -1,0 +1,11 @@
+{
+  "name": "app-dialog-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/firminoweb/dialog-test.git",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
