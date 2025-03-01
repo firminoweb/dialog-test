@@ -1,14 +1,7 @@
-// api-node/utils/dataHandler.js
 const fs = require('fs').promises;
 const path = require('path');
-
 const dataDir = path.join(__dirname, '..', 'data');
 
-/**
- * Lê dados de um arquivo JSON
- * @param {string} fileName - Nome do arquivo JSON
- * @returns {Promise<Array>} - Array com os dados do arquivo
- */
 const readData = async (fileName) => {
   try {
     const filePath = path.join(dataDir, fileName);
@@ -20,12 +13,6 @@ const readData = async (fileName) => {
   }
 };
 
-/**
- * Escreve dados em um arquivo JSON
- * @param {string} fileName - Nome do arquivo JSON
- * @param {Array} data - Dados a serem escritos
- * @returns {Promise<boolean>} - Verdadeiro se sucesso, falso se erro
- */
 const writeData = async (fileName, data) => {
   try {
     const filePath = path.join(dataDir, fileName);
@@ -37,11 +24,6 @@ const writeData = async (fileName, data) => {
   }
 };
 
-/**
- * Gera um ID único
- * @param {string} prefix - Prefixo para o ID (opcional)
- * @returns {string} - ID único
- */
 const generateId = (prefix = '') => {
   return `${prefix}${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 };

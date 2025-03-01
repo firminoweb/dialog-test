@@ -1,6 +1,4 @@
 const { readData, writeData, generateId } = require('../utils/dataHandler');
-
-// Arquivos de likes e posts
 const LIKES_FILE = 'likes.json';
 const POSTS_FILE = 'posts.json';
 

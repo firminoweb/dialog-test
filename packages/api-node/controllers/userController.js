@@ -1,11 +1,6 @@
 const { readData, writeData, generateId } = require('../utils/dataHandler');
-
-// Arquivo de usuários
 const USERS_FILE = 'users.json';
 
-/**
- * Obtém todos os usuários
- */
 const getAllUsers = async (req, res) => {
   try {
     const users = await readData(USERS_FILE);
@@ -15,9 +10,6 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-/**
- * Obtém um usuário pelo ID
- */
 const getUserById = async (req, res) => {
   try {
     const users = await readData(USERS_FILE);
@@ -33,13 +25,9 @@ const getUserById = async (req, res) => {
   }
 };
 
-/**
- * Obtém o usuário atual (simulação de autenticação)
- */
 const getCurrentUser = async (req, res) => {
   try {
     const users = await readData(USERS_FILE);
-    // Para simplificar, vamos retornar o primeiro usuário como usuário atual
     const currentUser = users[0];
     
     if (!currentUser) {
@@ -52,9 +40,6 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
-/**
- * Cria um novo usuário
- */
 const createUser = async (req, res) => {
   try {
     const { username, name, bio, avatar } = req.body;
@@ -65,7 +50,6 @@ const createUser = async (req, res) => {
     
     const users = await readData(USERS_FILE);
     
-    // Verificar se o username já existe
     if (users.some(user => user.username === username)) {
       return res.status(400).json({ error: 'Nome de usuário já existe' });
     }
@@ -92,9 +76,6 @@ const createUser = async (req, res) => {
   }
 };
 
-/**
- * Atualiza um usuário existente
- */
 const updateUser = async (req, res) => {
   try {
     const { name, bio, avatar } = req.body;
@@ -106,8 +87,7 @@ const updateUser = async (req, res) => {
     if (userIndex === -1) {
       return res.status(404).json({ error: 'Usuário não encontrado' });
     }
-    
-    // Atualizar apenas os campos fornecidos
+
     if (name) users[userIndex].name = name;
     if (bio !== undefined) users[userIndex].bio = bio;
     if (avatar !== undefined) users[userIndex].avatar = avatar;
@@ -123,9 +103,6 @@ const updateUser = async (req, res) => {
   }
 };
 
-/**
- * Remove um usuário
- */
 const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
