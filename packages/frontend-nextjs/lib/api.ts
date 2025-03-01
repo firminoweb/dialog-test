@@ -1,10 +1,7 @@
-// lib/api.ts
-
 import { User, Post, Like, ApiResponse } from './types';
 
 const API_URL = 'http://localhost:3001';
 
-// Função auxiliar para fazer requisições
 async function fetchAPI<T>(
   endpoint: string, 
   method: string = 'GET', 

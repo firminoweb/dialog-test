@@ -1,9 +1,18 @@
 {
   "name": "api-node",
   "version": "1.0.0",
+  "description": "API de Social Feed para desafio técnico",
   "main": "index.js",
-  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
-    "express": "^4.19.2"
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
