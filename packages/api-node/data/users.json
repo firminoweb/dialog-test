@@ -4,7 +4,7 @@
     "username": "joao.firmino",
     "name": "João Firmino",
     "bio": "Desenvolvedor web apaixonado por tecnologia",
-    "avatar": "https://i.pravatar.cc/150?img=1",
+    "avatar": "https://i.pravatar.cc/150?img=8",
     "createdAt": "2023-01-15T00:00:00.000Z"
   },
   {
@@ -14,5 +14,21 @@
     "bio": "Designer UX/UI | Amante de café",
     "avatar": "https://i.pravatar.cc/150?img=5",
     "createdAt": "2023-02-20T00:00:00.000Z"
+  },
+  {
+    "id": "user789",
+    "username": "pedro.silva",
+    "name": "Pedro Silva",
+    "bio": "Desenvolvedor backend | Entusiasta de Node.js e MongoDB",
+    "avatar": "https://i.pravatar.cc/150?img=3",
+    "createdAt": "2023-05-10T00:00:00.000Z"
+  },
+  {
+    "id": "user101",
+    "username": "ana.costa",
+    "name": "Ana Costa",
+    "bio": "Arquiteta de software | Especialista em Cloud Computing",
+    "avatar": "https://i.pravatar.cc/150?img=9",
+    "createdAt": "2023-08-15T00:00:00.000Z"
   }
 ]

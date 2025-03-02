@@ -56,7 +56,7 @@ export default function Navbar() {
             </Link>
             <Link href="/profile?id=me">
               <Avatar 
-                src="https://i.pravatar.cc/150?img=1" 
+                src="https://i.pravatar.cc/150?img=8" 
                 alt="Perfil" 
                 size="sm" 
               />

@@ -1,40 +1,25 @@
 [
   {
     "id": "post1",
-    "userId": "user123",
-    "content": "Acabei de começar um novo projeto com Next.js e estou adorando a experiência!",
-    "likesCount": 5,
-    "createdAt": "2024-01-10T17:30:00.000Z"
-  },
-  {
-    "id": "post2",
     "userId": "user456",
     "content": "Dica do dia: use Tailwind CSS para agilizar seu desenvolvimento front-end.",
     "imageUrl": "https://picsum.photos/id/1/600/400",
-    "likesCount": 8,
+    "likesCount": 5,
     "createdAt": "2024-01-12T12:15:00.000Z"
   },
   {
+    "id": "post2",
+    "userId": "user789",
+    "content": "Acabei de lançar minha nova API RESTful usando Node.js e Express. Quem quiser dar uma olhada, o código está no meu GitHub!",
+    "likesCount": 9,
+    "createdAt": "2024-02-15T14:30:00.000Z"
+  },
+  {
     "id": "post3",
-    "userId": "user123",
-    "content": "Alguém aqui já trabalhou com Node.js e Express? Estou precisando de algumas dicas para minha API.",
-    "likesCount": 3,
-    "createdAt": "2024-01-15T21:45:00.000Z"
-  },
-  {
-    "id": "post_1740921436507_pjyez2xn",
-    "userId": "user123",
-    "content": "oioi",
-    "imageUrl": "",
-    "likesCount": 0,
-    "createdAt": "2025-03-02T13:17:16.507Z"
-  },
-  {
-    "id": "post_1740921629877_98f6nvfz",
-    "userId": "user123",
-    "content": "ollll",
-    "imageUrl": "",
-    "likesCount": 1,
-    "createdAt": "2025-03-02T13:20:29.877Z"
+    "userId": "user101",
+    "content": "Migrar para arquitetura serverless foi a melhor decisão que tomei este ano. Redução de custos e escalabilidade impressionantes!",
+    "imageUrl": "https://picsum.photos/id/180/600/400",
+    "likesCount": 12,
+    "createdAt": "2024-02-20T09:45:00.000Z"
   }
 ]

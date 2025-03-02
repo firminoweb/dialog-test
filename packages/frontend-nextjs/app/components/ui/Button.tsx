@@ -26,20 +26,17 @@ export default function Button({
     ghost: 'bg-transparent hover:bg-gray-100 text-gray-700'
   };
 
-  // Mapear tamanhos para estilos
   const sizeStyles = {
     sm: 'text-xs px-3 py-1.5 rounded',
     md: 'text-sm px-4 py-2 rounded-md',
     lg: 'text-base px-6 py-3 rounded-lg'
   };
 
-  // Classes para estado de carregamento e desabilitado
   const stateStyles = `
     ${disabled || isLoading ? 'opacity-50 cursor-not-allowed' : ''}
     ${isLoading ? 'relative' : ''}
   `;
 
-  // Classe para largura total
   const widthStyle = fullWidth ? 'w-full' : '';
 
   return (

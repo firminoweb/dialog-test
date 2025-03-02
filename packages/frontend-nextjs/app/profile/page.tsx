@@ -1,4 +1,3 @@
-// app/profile/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -10,12 +9,13 @@ import PostCard from '../components/post/PostCard';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 
-// ID do usuário atual (em uma aplicação real, viria da autenticação)
 const CURRENT_USER_ID = 'user123';
 
 export default function ProfilePage() {
   const searchParams = useSearchParams();
   const userId = searchParams.get('id') || 'me';
+  const resolvedUserId = userId === 'me' ? CURRENT_USER_ID : userId;
+  const isOwnProfile = resolvedUserId === CURRENT_USER_ID;
 
   const [user, setUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -33,25 +33,21 @@ export default function ProfilePage() {
     setError(null);
     
     try {
-      // Carregar dados do usuário
       const userResponse = userId === 'me' 
         ? await userApi.getCurrentUser()
-        : await userApi.getUserById(userId);
+        : await userApi.getUserById(resolvedUserId);
       
       if (userResponse.success) {
         const loadedUser = userResponse.data;
         setUser(loadedUser);
         
-        // Carregar posts do usuário
         const postsResponse = await postApi.getUserPosts(loadedUser.id);
         if (postsResponse.success) {
           setPosts(postsResponse.data);
           
-          // Carregar curtidas do usuário atual para verificar quais posts ele já curtiu
           const userLikesResponse = await likeApi.getUserLikes(CURRENT_USER_ID);
           
           if (userLikesResponse.success) {
-            // Criar um mapa de postId -> like para facilitar a verificação
             const likesMap: {[postId: string]: Like} = {};
             userLikesResponse.data.forEach(like => {
               likesMap[like.postId] = like;
@@ -81,7 +77,6 @@ export default function ProfilePage() {
   };
 
   const handlePostLiked = async (postId: string, liked: boolean) => {
-    // Atualizar o estado local
     setPosts(currentPosts => 
       currentPosts.map(post => {
         if (post.id === postId) {
@@ -96,11 +91,9 @@ export default function ProfilePage() {
       })
     );
 
-    // Atualizar o mapa de likes do usuário
     if (liked) {
-      // Simular a adição de um like ao mapa (normalmente viria da resposta da API)
       const newLike: Like = {
-        id: `temp_like_${postId}`, // Temporário
+        id: `temp_like_${postId}`,
         postId: postId,
         userId: CURRENT_USER_ID,
         createdAt: new Date().toISOString()
@@ -111,7 +104,18 @@ export default function ProfilePage() {
         [postId]: newLike
       }));
     } else {
-      // Remover like do mapa
+      setUserLikes(prev => {
+        const newMap = {...prev};
+        delete newMap[postId];
+        return newMap;
+      });
+    }
+  };
+
+  const handlePostDeleted = (postId: string) => {
+    setPosts(currentPosts => currentPosts.filter(post => post.id !== postId));
+    
+    if (userLikes[postId]) {
       setUserLikes(prev => {
         const newMap = {...prev};
         delete newMap[postId];
@@ -157,11 +161,11 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto py-6">
       <Card className="rounded-b-none shadow-sm mb-6">
         <ProfileHeader 
           user={user} 
-          isEditable={userId === 'me'} 
+          isEditable={isOwnProfile} 
           onEdit={handleEditProfile} 
         />
       </Card>
@@ -186,7 +190,7 @@ export default function ProfilePage() {
             <p className="text-gray-500 mb-4">
               Este usuário ainda não publicou nada.
             </p>
-            {userId === 'me' && (
+            {isOwnProfile && (
               <Button onClick={() => window.location.href = '/'}>
                 Criar sua primeira publicação
               </Button>
@@ -200,6 +204,8 @@ export default function ProfilePage() {
                 post={{...post, user}} 
                 isLiked={isPostLikedByUser(post.id)}
                 onLikeToggle={(liked) => handlePostLiked(post.id, liked)}
+                isOwnPost={isOwnProfile && post.userId === CURRENT_USER_ID}
+                onPostDeleted={handlePostDeleted}
               />
             ))}
           </div>

@@ -1,20 +1,38 @@
 [
   {
-    "id": "like1",
+    "id": "like2",
     "postId": "post1",
-    "userId": "user456",
-    "createdAt": "2024-01-10T19:45:00.000Z"
+    "userId": "user789",
+    "createdAt": "2024-01-12T16:45:00.000Z"
   },
   {
-    "id": "like_1740925544144_785ahwvr",
+    "id": "like3",
+    "postId": "post2",
+    "userId": "user456",
+    "createdAt": "2024-02-16T09:15:00.000Z"
+  },
+  {
+    "id": "like4",
+    "postId": "post2",
+    "userId": "user101",
+    "createdAt": "2024-02-16T10:30:00.000Z"
+  },
+  {
+    "id": "like_1740929327943_0f9f2lwn",
+    "postId": "post1",
+    "userId": "user123",
+    "createdAt": "2025-03-02T15:28:47.943Z"
+  },
+  {
+    "id": "like_1740931710062_wpdus12e",
+    "postId": "post3",
+    "userId": "user123",
+    "createdAt": "2025-03-02T16:08:30.062Z"
+  },
+  {
+    "id": "like_1740951836390_1ud1m7l8",
     "postId": "post2",
     "userId": "user123",
-    "createdAt": "2025-03-02T14:25:44.144Z"
-  },
-  {
-    "id": "like_1740926055404_2mddwv1b",
-    "postId": "post_1740921629877_98f6nvfz",
-    "userId": "user123",
-    "createdAt": "2025-03-02T14:34:15.404Z"
+    "createdAt": "2025-03-02T21:43:56.390Z"
   }
 ]

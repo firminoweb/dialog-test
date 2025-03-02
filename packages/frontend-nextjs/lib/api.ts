@@ -61,12 +61,9 @@ export const postApi = {
   getPosts: () => fetchAPI<Post[]>('/posts'),
   getPostById: (id: string) => fetchAPI<Post>(`/posts/${id}`),
   getUserPosts: (userId: string) => fetchAPI<Post[]>(`/posts/user/${userId}`),
-  createPost: (postData: Partial<Post>) => 
-    fetchAPI<Post>('/posts', 'POST', postData),
-  updatePost: (id: string, postData: Partial<Post>) => 
-    fetchAPI<Post>(`/posts/${id}`, 'PUT', postData),
-  deletePost: (id: string) => 
-    fetchAPI<{ success: boolean }>(`/posts/${id}`, 'DELETE'),
+  createPost: (postData: Partial<Post>) => fetchAPI<Post>('/posts', 'POST', postData),
+  updatePost: (id: string, postData: Partial<Post>) => fetchAPI<Post>(`/posts/${id}`, 'PUT', postData),
+  deletePost: (id: string, userId: string) => fetchAPI<{ success: boolean }>(`/posts/${id}?userId=${userId}`, 'DELETE'),
 };
 
 export const likeApi = {
