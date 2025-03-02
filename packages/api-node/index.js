@@ -9,11 +9,28 @@ const PORT = process.env.PORT || 3001;
 app.use(corsMiddleware);
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  
+  if (req.method === 'POST' || req.method === 'PUT') {
+    console.log('Body recebido (já processado pelo express.json):', req.body);
+  }
+  
+  const oldSend = res.send;
+  res.send = function(data) {
+    console.log(`${new Date().toISOString()} - Enviando resposta:`, 
+      typeof data === 'object' ? data : data.toString().substring(0, 200));
+    return oldSend.apply(res, arguments);
+  }
+  
+  next();
+});
+
 const dataDir = path.join(__dirname, 'data');
 const setupDataDir = async () => {
   try {
     await fs.mkdir(dataDir, { recursive: true });
-
+    
     const files = [
       { name: 'users.json', defaultContent: [] },
       { name: 'posts.json', defaultContent: [] },
@@ -174,7 +191,7 @@ app.use('/likes', likeRoutes);
 
 // Rota inicial
 app.get('/', (req, res) => {
-  res.json({ message: 'API de Social Feed funcionando!' });
+  res.json({ success: true, message: 'API de Social Feed funcionando!' });
 });
 
 // Iniciar servidor

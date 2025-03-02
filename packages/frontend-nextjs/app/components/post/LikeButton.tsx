@@ -1,4 +1,3 @@
-// app/components/post/LikeButton.tsx
 'use client';
 
 interface LikeButtonProps {
@@ -12,6 +11,7 @@ export default function LikeButton({ isLiked, onClick }: LikeButtonProps) {
       onClick={onClick}
       className={`p-1 rounded-full transition-colors ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-gray-600'}`}
       aria-label={isLiked ? 'Unlike' : 'Like'}
+      type="button"
     >
       <svg 
         xmlns="http://www.w3.org/2000/svg" 

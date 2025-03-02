@@ -1,3 +1,4 @@
+// app/post/[id]/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -11,6 +12,21 @@ import Avatar from '@/app/components/ui/Avatar';
 import Button from '@/app/components/ui/Button';
 import LikeButton from '@/app/components/post/LikeButton';
 
+// ID do usuário atual (em uma aplicação real, viria da autenticação)
+const CURRENT_USER_ID = 'user123';
+
+// Função para formatar datas
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat('pt-BR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(date);
+};
+
 export default function PostPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
@@ -21,6 +37,7 @@ export default function PostPage() {
   const [isLiked, setIsLiked] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [userLike, setUserLike] = useState<Like | null>(null);
 
   useEffect(() => {
     if (postId) {
@@ -44,10 +61,14 @@ export default function PostPage() {
         if (likesResponse.success) {
           setLikes(likesResponse.data);
           
-          // Verificar se o usuário atual curtiu o post (simulação)
-          // Na aplicação real, usaria o ID do usuário autenticado
-          const userLiked = likesResponse.data.some(like => like.userId === 'user123');
-          setIsLiked(userLiked);
+          // Verificar se o usuário atual curtiu o post
+          const userLikeObj = likesResponse.data.find(like => like.userId === CURRENT_USER_ID);
+          setUserLike(userLikeObj || null);
+          setIsLiked(!!userLikeObj);
+          
+          console.log('Post carregado:', postResponse.data);
+          console.log('Likes do post:', likesResponse.data);
+          console.log('Like do usuário:', userLikeObj);
         }
       } else {
         setError('Falha ao carregar o post');
@@ -64,49 +85,43 @@ export default function PostPage() {
     if (!post) return;
     
     try {
-      if (isLiked) {
-        // Encontrar o ID do like para removê-lo
-        const likeToRemove = likes.find(like => like.userId === 'user123');
+      if (isLiked && userLike) {
+        // Unlike - remover curtida
+        const response = await likeApi.unlikePost(userLike.id);
         
-        if (likeToRemove) {
-          await likeApi.unlikePost(likeToRemove.id);
-          
+        if (response.success) {
           // Atualizar estado local
-          setLikes(likes.filter(like => like.id !== likeToRemove.id));
+          setUserLike(null);
           setIsLiked(false);
+          setLikes(likes.filter(like => like.id !== userLike.id));
           setPost({
             ...post,
             likesCount: Math.max(0, post.likesCount - 1)
           });
+        } else {
+          console.error('Erro ao remover curtida:', response.message);
         }
       } else {
-        // Adicionar um novo like
-        const response = await likeApi.likePost(post.id);
+        // Like - adicionar curtida
+        const response = await likeApi.likePost(post.id, CURRENT_USER_ID);
         
         if (response.success) {
           // Atualizar estado local
-          setLikes([...likes, response.data]);
+          const newLike = response.data;
+          setUserLike(newLike);
           setIsLiked(true);
+          setLikes([...likes, newLike]);
           setPost({
             ...post,
             likesCount: post.likesCount + 1
           });
+        } else {
+          console.error('Erro ao curtir post:', response.message);
         }
       }
     } catch (err) {
       console.error('Erro ao processar curtida:', err);
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
   };
 
   if (loading) {
@@ -205,7 +220,6 @@ export default function PostPage() {
                 alt="Imagem do post" 
                 width={600}
                 height={400}
-                layout="responsive"
                 className="object-contain"
               />
             </div>
@@ -215,7 +229,7 @@ export default function PostPage() {
         {/* Métricas do Post */}
         <Card.Footer className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <LikeButton isLiked={isLiked} onClick={handleLikeToggle} />
+            <LikeButton isLiked={isLiked} onClick={() => handleLikeToggle()} />
             <span className="text-sm text-gray-600">{post.likesCount} curtidas</span>
           </div>
           
@@ -225,8 +239,10 @@ export default function PostPage() {
               size="sm" 
               className="text-gray-500"
               onClick={() => {
+                // Criar URL para compartilhamento
                 const shareURL = `${window.location.origin}/post/${post.id}`;
                 
+                // Copiar para a área de transferência
                 navigator.clipboard.writeText(shareURL).then(() => {
                   alert('Link copiado para a área de transferência!');
                 });

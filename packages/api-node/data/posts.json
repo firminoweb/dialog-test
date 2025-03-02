@@ -11,7 +11,7 @@
     "userId": "user456",
     "content": "Dica do dia: use Tailwind CSS para agilizar seu desenvolvimento front-end.",
     "imageUrl": "https://picsum.photos/id/1/600/400",
-    "likesCount": 7,
+    "likesCount": 8,
     "createdAt": "2024-01-12T12:15:00.000Z"
   },
   {
@@ -34,7 +34,7 @@
     "userId": "user123",
     "content": "ollll",
     "imageUrl": "",
-    "likesCount": 0,
+    "likesCount": 1,
     "createdAt": "2025-03-02T13:20:29.877Z"
   }
 ]

@@ -2,13 +2,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Post } from '@/lib/types';
-import { postApi } from '@/lib/api';
+import { Post, Like } from '@/lib/types';
+import { postApi, likeApi } from '@/lib/api';
 import PostCard from './components/post/PostCard';
 import PostForm from './components/post/PostForm';
 
+// ID do usuário atual (em uma aplicação real, viria da autenticação)
+const CURRENT_USER_ID = 'user123';
+
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [userLikes, setUserLikes] = useState<{[postId: string]: Like}>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,9 +25,26 @@ export default function Home() {
     setError(null);
     
     try {
+      // Carregar todos os posts
       const response = await postApi.getPosts();
+      
       if (response.success) {
-        setPosts(response.data);
+        const loadedPosts = response.data;
+        setPosts(loadedPosts);
+        
+        // Carregar as curtidas do usuário atual para verificar quais posts ele já curtiu
+        const userLikesResponse = await likeApi.getUserLikes(CURRENT_USER_ID);
+        
+        if (userLikesResponse.success) {
+          // Criar um mapa de postId -> like para facilitar a verificação
+          const likesMap: {[postId: string]: Like} = {};
+          userLikesResponse.data.forEach(like => {
+            likesMap[like.postId] = like;
+          });
+          
+          setUserLikes(likesMap);
+          console.log('Likes do usuário carregados:', likesMap);
+        }
       } else {
         setError('Falha ao carregar os posts');
       }
@@ -37,6 +58,50 @@ export default function Home() {
 
   const handlePostCreated = (newPost: Post) => {
     setPosts([newPost, ...posts]);
+  };
+
+  const handlePostLiked = async (postId: string, liked: boolean) => {
+    // Atualizar o estado local
+    setPosts(currentPosts => 
+      currentPosts.map(post => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            likesCount: liked 
+              ? post.likesCount + 1 
+              : Math.max(0, post.likesCount - 1)
+          };
+        }
+        return post;
+      })
+    );
+
+    // Atualizar o mapa de likes do usuário
+    if (liked) {
+      // Simular a adição de um like ao mapa (normalmente viria da resposta da API)
+      const newLike: Like = {
+        id: `temp_like_${postId}`, // Temporário
+        postId: postId,
+        userId: CURRENT_USER_ID,
+        createdAt: new Date().toISOString()
+      };
+      
+      setUserLikes(prev => ({
+        ...prev,
+        [postId]: newLike
+      }));
+    } else {
+      // Remover like do mapa
+      setUserLikes(prev => {
+        const newMap = {...prev};
+        delete newMap[postId];
+        return newMap;
+      });
+    }
+  };
+
+  const isPostLikedByUser = (postId: string): boolean => {
+    return !!userLikes[postId];
   };
 
   return (
@@ -67,7 +132,12 @@ export default function Home() {
       ) : (
         <div>
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
+            <PostCard 
+              key={post.id} 
+              post={post} 
+              isLiked={isPostLikedByUser(post.id)}
+              onLikeToggle={(liked) => handlePostLiked(post.id, liked)} 
+            />
           ))}
         </div>
       )}

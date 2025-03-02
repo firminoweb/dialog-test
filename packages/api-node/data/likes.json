@@ -4,5 +4,17 @@
     "postId": "post1",
     "userId": "user456",
     "createdAt": "2024-01-10T19:45:00.000Z"
+  },
+  {
+    "id": "like_1740925544144_785ahwvr",
+    "postId": "post2",
+    "userId": "user123",
+    "createdAt": "2025-03-02T14:25:44.144Z"
+  },
+  {
+    "id": "like_1740926055404_2mddwv1b",
+    "postId": "post_1740921629877_98f6nvfz",
+    "userId": "user123",
+    "createdAt": "2025-03-02T14:34:15.404Z"
   }
 ]
