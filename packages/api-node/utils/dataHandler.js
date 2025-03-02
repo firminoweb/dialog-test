@@ -1,5 +1,7 @@
 const fs = require('fs').promises;
 const path = require('path');
+const idGenerator = require('./idGenerator');
+
 const dataDir = path.join(__dirname, '..', 'data');
 
 const readData = async (fileName) => {
@@ -24,12 +26,9 @@ const writeData = async (fileName, data) => {
   }
 };
 
-const generateId = (prefix = '') => {
-  return `${prefix}${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-};
-
 module.exports = {
   readData,
   writeData,
-  generateId
+  generateId: idGenerator.generateId,
+  generateUniqueId: idGenerator.generateUniqueId
 };

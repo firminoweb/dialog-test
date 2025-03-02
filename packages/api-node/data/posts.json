@@ -1,0 +1,40 @@
+[
+  {
+    "id": "post1",
+    "userId": "user123",
+    "content": "Acabei de começar um novo projeto com Next.js e estou adorando a experiência!",
+    "likesCount": 5,
+    "createdAt": "2024-01-10T17:30:00.000Z"
+  },
+  {
+    "id": "post2",
+    "userId": "user456",
+    "content": "Dica do dia: use Tailwind CSS para agilizar seu desenvolvimento front-end.",
+    "imageUrl": "https://picsum.photos/id/1/600/400",
+    "likesCount": 7,
+    "createdAt": "2024-01-12T12:15:00.000Z"
+  },
+  {
+    "id": "post3",
+    "userId": "user123",
+    "content": "Alguém aqui já trabalhou com Node.js e Express? Estou precisando de algumas dicas para minha API.",
+    "likesCount": 3,
+    "createdAt": "2024-01-15T21:45:00.000Z"
+  },
+  {
+    "id": "post_1740921436507_pjyez2xn",
+    "userId": "user123",
+    "content": "oioi",
+    "imageUrl": "",
+    "likesCount": 0,
+    "createdAt": "2025-03-02T13:17:16.507Z"
+  },
+  {
+    "id": "post_1740921629877_98f6nvfz",
+    "userId": "user123",
+    "content": "ollll",
+    "imageUrl": "",
+    "likesCount": 0,
+    "createdAt": "2025-03-02T13:20:29.877Z"
+  }
+]

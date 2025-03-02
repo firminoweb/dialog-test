@@ -1,22 +1,19 @@
-// api-node/index.js
 const express = require('express');
-const cors = require('cors');
 const fs = require('fs').promises;
 const path = require('path');
+const corsMiddleware = require('./middleware/cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(corsMiddleware);
 app.use(express.json());
 
-// Garantir que os diretórios existam
 const dataDir = path.join(__dirname, 'data');
 const setupDataDir = async () => {
   try {
     await fs.mkdir(dataDir, { recursive: true });
-    
-    // Verificar e criar arquivos JSON iniciais se não existirem
+
     const files = [
       { name: 'users.json', defaultContent: [] },
       { name: 'posts.json', defaultContent: [] },
@@ -27,28 +24,40 @@ const setupDataDir = async () => {
       const filePath = path.join(dataDir, file.name);
       try {
         await fs.access(filePath);
+        
+        const content = await fs.readFile(filePath, 'utf8');
+        if (!content || content.trim() === '') {
+          await fs.writeFile(filePath, JSON.stringify(file.defaultContent, null, 2));
+          console.log(`Arquivo ${file.name} estava vazio e foi inicializado.`);
+        } else {
+          try {
+            JSON.parse(content);
+          } catch (parseError) {
+            await fs.writeFile(filePath, JSON.stringify(file.defaultContent, null, 2));
+            console.log(`Arquivo ${file.name} continha JSON inválido e foi redefinido.`);
+          }
+        }
       } catch (error) {
-        // Arquivo não existe, criar com conteúdo padrão
         await fs.writeFile(filePath, JSON.stringify(file.defaultContent, null, 2));
         console.log(`Arquivo ${file.name} criado com sucesso.`);
       }
     }
     
-    // Adicionar alguns dados de exemplo se os arquivos estiverem vazios
     await populateInitialData();
   } catch (error) {
     console.error('Erro ao configurar diretório de dados:', error);
   }
 };
 
-// Função para popular dados iniciais
 const populateInitialData = async () => {
-  // Dados de exemplo para users.json
   const usersPath = path.join(dataDir, 'users.json');
   let users = [];
+  
   try {
     const usersData = await fs.readFile(usersPath, 'utf8');
-    users = JSON.parse(usersData);
+    if (usersData && usersData.trim() !== '') {
+      users = JSON.parse(usersData);
+    }
   } catch (error) {
     console.error('Erro ao ler arquivo de usuários:', error);
   }
@@ -78,12 +87,14 @@ const populateInitialData = async () => {
     users = sampleUsers;
   }
   
-  // Dados de exemplo para posts.json
   const postsPath = path.join(dataDir, 'posts.json');
   let posts = [];
+  
   try {
     const postsData = await fs.readFile(postsPath, 'utf8');
-    posts = JSON.parse(postsData);
+    if (postsData && postsData.trim() !== '') {
+      posts = JSON.parse(postsData);
+    }
   } catch (error) {
     console.error('Erro ao ler arquivo de posts:', error);
   }
@@ -116,6 +127,38 @@ const populateInitialData = async () => {
     
     await fs.writeFile(postsPath, JSON.stringify(samplePosts, null, 2));
     console.log('Posts de exemplo criados com sucesso.');
+  }
+  
+  const likesPath = path.join(dataDir, 'likes.json');
+  let likes = [];
+  
+  try {
+    const likesData = await fs.readFile(likesPath, 'utf8');
+    if (likesData && likesData.trim() !== '') {
+      likes = JSON.parse(likesData);
+    }
+  } catch (error) {
+    console.error('Erro ao ler arquivo de likes:', error);
+  }
+  
+  if (likes.length === 0) {
+    const sampleLikes = [
+      {
+        id: 'like1',
+        postId: 'post1',
+        userId: 'user456',
+        createdAt: new Date('2024-01-10T16:45:00').toISOString()
+      },
+      {
+        id: 'like2',
+        postId: 'post2',
+        userId: 'user123',
+        createdAt: new Date('2024-01-12T10:20:00').toISOString()
+      }
+    ];
+    
+    await fs.writeFile(likesPath, JSON.stringify(sampleLikes, null, 2));
+    console.log('Likes de exemplo criados com sucesso.');
   }
 };
 

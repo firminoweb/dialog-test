@@ -1,0 +1,18 @@
+[
+  {
+    "id": "user123",
+    "username": "joao.silva",
+    "name": "João Silva",
+    "bio": "Desenvolvedor web apaixonado por tecnologia",
+    "avatar": "https://i.pravatar.cc/150?img=1",
+    "createdAt": "2023-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "user456",
+    "username": "maria.santos",
+    "name": "Maria Santos",
+    "bio": "Designer UX/UI | Amante de café",
+    "avatar": "https://i.pravatar.cc/150?img=5",
+    "createdAt": "2023-02-20T00:00:00.000Z"
+  }
+]
