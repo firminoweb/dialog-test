@@ -1,4 +1,3 @@
-// app/post/[id]/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -12,10 +11,8 @@ import Avatar from '@/app/components/ui/Avatar';
 import Button from '@/app/components/ui/Button';
 import LikeButton from '@/app/components/post/LikeButton';
 
-// ID do usuário atual (em uma aplicação real, viria da autenticação)
 const CURRENT_USER_ID = 'user123';
 
-// Função para formatar datas
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('pt-BR', {
@@ -50,18 +47,15 @@ export default function PostPage() {
     setError(null);
     
     try {
-      // Carregar detalhes do post
       const postResponse = await postApi.getPostById(postId);
       
       if (postResponse.success) {
         setPost(postResponse.data);
         
-        // Carregar curtidas do post
         const likesResponse = await likeApi.getPostLikes(postId);
         if (likesResponse.success) {
           setLikes(likesResponse.data);
           
-          // Verificar se o usuário atual curtiu o post
           const userLikeObj = likesResponse.data.find(like => like.userId === CURRENT_USER_ID);
           setUserLike(userLikeObj || null);
           setIsLiked(!!userLikeObj);
@@ -86,11 +80,9 @@ export default function PostPage() {
     
     try {
       if (isLiked && userLike) {
-        // Unlike - remover curtida
         const response = await likeApi.unlikePost(userLike.id);
         
         if (response.success) {
-          // Atualizar estado local
           setUserLike(null);
           setIsLiked(false);
           setLikes(likes.filter(like => like.id !== userLike.id));
@@ -102,11 +94,11 @@ export default function PostPage() {
           console.error('Erro ao remover curtida:', response.message);
         }
       } else {
-        // Like - adicionar curtida
+
         const response = await likeApi.likePost(post.id, CURRENT_USER_ID);
         
         if (response.success) {
-          // Atualizar estado local
+
           const newLike = response.data;
           setUserLike(newLike);
           setIsLiked(true);
@@ -234,15 +226,17 @@ export default function PostPage() {
           </div>
           
           <div>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-gray-500"
+            <button 
+              className="
+                flex items-center
+                font-medium transition duration-150 ease-in-out
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50
+                bg-transparent hover:bg-gray-100 text-gray-700
+                text-xs px-3 py-1.5 rounded
+                text-gray-500
+              "
               onClick={() => {
-                // Criar URL para compartilhamento
                 const shareURL = `${window.location.origin}/post/${post.id}`;
-                
-                // Copiar para a área de transferência
                 navigator.clipboard.writeText(shareURL).then(() => {
                   alert('Link copiado para a área de transferência!');
                 });
@@ -250,7 +244,7 @@ export default function PostPage() {
             >
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
-                className="h-5 w-5 mr-1" 
+                className="h-5 w-5 mr-1.5" 
                 fill="none" 
                 viewBox="0 0 24 24" 
                 stroke="currentColor"
@@ -263,12 +257,11 @@ export default function PostPage() {
                 />
               </svg>
               Compartilhar
-            </Button>
+            </button>
           </div>
         </Card.Footer>
       </Card>
 
-      {/* Seção de comentários (placeholder para expansão futura) */}
       <div className="mt-6">
         <h3 className="text-lg font-semibold mb-4">Comentários</h3>
         <Card padding="lg" className="text-center py-8 text-gray-500">

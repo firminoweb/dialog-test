@@ -1,4 +1,3 @@
-// app/components/profile/ProfileCard.tsx
 'use client';
 
 import Image from 'next/image';

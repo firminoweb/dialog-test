@@ -1,4 +1,3 @@
-// app/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -7,7 +6,6 @@ import { postApi, likeApi } from '@/lib/api';
 import PostCard from './components/post/PostCard';
 import PostForm from './components/post/PostForm';
 
-// ID do usuário atual (em uma aplicação real, viria da autenticação)
 const CURRENT_USER_ID = 'user123';
 
 export default function Home() {
@@ -25,18 +23,15 @@ export default function Home() {
     setError(null);
     
     try {
-      // Carregar todos os posts
       const response = await postApi.getPosts();
       
       if (response.success) {
         const loadedPosts = response.data;
         setPosts(loadedPosts);
-        
-        // Carregar as curtidas do usuário atual para verificar quais posts ele já curtiu
+
         const userLikesResponse = await likeApi.getUserLikes(CURRENT_USER_ID);
         
         if (userLikesResponse.success) {
-          // Criar um mapa de postId -> like para facilitar a verificação
           const likesMap: {[postId: string]: Like} = {};
           userLikesResponse.data.forEach(like => {
             likesMap[like.postId] = like;
@@ -61,7 +56,6 @@ export default function Home() {
   };
 
   const handlePostLiked = async (postId: string, liked: boolean) => {
-    // Atualizar o estado local
     setPosts(currentPosts => 
       currentPosts.map(post => {
         if (post.id === postId) {
@@ -76,11 +70,9 @@ export default function Home() {
       })
     );
 
-    // Atualizar o mapa de likes do usuário
     if (liked) {
-      // Simular a adição de um like ao mapa (normalmente viria da resposta da API)
       const newLike: Like = {
-        id: `temp_like_${postId}`, // Temporário
+        id: `temp_like_${postId}`,
         postId: postId,
         userId: CURRENT_USER_ID,
         createdAt: new Date().toISOString()
@@ -91,7 +83,6 @@ export default function Home() {
         [postId]: newLike
       }));
     } else {
-      // Remover like do mapa
       setUserLikes(prev => {
         const newMap = {...prev};
         delete newMap[postId];

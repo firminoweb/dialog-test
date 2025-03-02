@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Social Feed - Frontend
 
-## Getting Started
+Interface do usuário para aplicação Social Feed, desenvolvida com Next.js e TypeScript.
 
-First, run the development server:
+## Tecnologias Utilizadas
+
+- **Next.js 14** - Framework React moderno com SSR
+- **TypeScript** - JavaScript com tipagem estática
+- **Tailwind CSS** - Framework CSS utilitário para estilos
+- **React Hooks** - Gerenciamento de estado e efeitos
+
+## Funcionalidades
+
+- Timeline de posts com scroll infinito
+- Perfis de usuário com estatísticas
+- Criação de posts com texto e imagens
+- Sistema de curtidas
+- Exclusão de posts próprios
+- Design responsivo para mobile e desktop
+
+## Estrutura do Projeto
+
+```
+frontend-nextjs/
+├── app/                # Arquivos da aplicação Next.js
+│   ├── components/     # Componentes reutilizáveis
+│   │   ├── layout/     # Componentes de layout (Navbar, Footer)
+│   │   ├── post/       # Componentes relacionados a posts
+│   │   ├── profile/    # Componentes de perfil de usuário
+│   │   └── ui/         # Componentes de UI genéricos
+│   ├── post/           # Páginas de detalhes de post
+│   ├── profile/        # Página de perfil
+│   ├── globals.css     # Estilos globais
+│   └── page.tsx        # Página inicial (timeline)
+├── lib/                # Utilitários e tipos
+│   ├── api.ts          # Cliente para comunicação com a API
+│   └── types.ts        # Definições de tipos TypeScript
+└── public/             # Arquivos estáticos
+```
+
+## Instalação
+
+### Pré-requisitos
+- Node.js (v16+)
+- npm ou Yarn
+
+### Passos para Instalação
+
+1. Entre na pasta do frontend:
+```bash
+cd packages/frontend-nextjs
+```
+
+2. Instale as dependências:
+```bash
+npm install
+# ou
+yarn
+```
+
+## Executando a Aplicação
+
+Para iniciar o servidor de desenvolvimento:
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A aplicação estará disponível em http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Para uma build de produção:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run build
+npm start
+# ou
+yarn build
+yarn start
+```
 
-## Learn More
+## Comunicação com o Backend
 
-To learn more about Next.js, take a look at the following resources:
+O frontend se comunica com a API REST através do cliente implementado em `lib/api.ts`.
+Para funcionar corretamente, o backend deve estar rodando em http://localhost:3001.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Testes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+npm run test
+# ou
+yarn test
+```
 
-## Deploy on Vercel
+## Variáveis de Ambiente
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Crie um arquivo `.env.local` na raiz do projeto com as seguintes variáveis:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
+
+## Build e Deploy
+
+Para gerar uma versão de produção:
+
+```bash
+npm run build
+# ou
+yarn build
+```
+
+Os arquivos gerados estarão na pasta `.next/`.
