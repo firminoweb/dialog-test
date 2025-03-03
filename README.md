@@ -101,7 +101,3 @@ Para simplificar, a aplicação não implementa autenticação real, mas simula 
 3. Commit suas mudanças (`git commit -m 'Add some amazing feature'`)
 4. Push para a branch (`git push origin feature/amazing-feature`)
 5. Abra um Pull Request
-
-## Licença
-
-Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para detalhes.

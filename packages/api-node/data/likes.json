@@ -34,11 +34,5 @@
     "postId": "post3",
     "userId": "user123",
     "createdAt": "2025-03-02T22:53:31.731Z"
-  },
-  {
-    "id": "like_1740956033028_jrz1p2zy",
-    "postId": "post_1740956031432_8zmfrlqx",
-    "userId": "user123",
-    "createdAt": "2025-03-02T22:53:53.028Z"
   }
 ]
